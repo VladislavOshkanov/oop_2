@@ -1,5 +1,5 @@
 
-#include "Named.h"
+#include "Base.h"
 
 int main(int argc, char const *argv[]) {
   std::string str;
