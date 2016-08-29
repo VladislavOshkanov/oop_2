@@ -22,12 +22,27 @@ public:
   void print (std::ostream & out){
     out << this->getName();
   }
-
-
   std::string const & getName() {
     return _name;
   }
 private:
   std::string _name;
+
+};
+
+class Shape : public Printable{
+public:
+  Shape () : Printable(){
+    _quantity++;
+  };
+  ~Shape(){
+    _quantity--;
+  }
+  static int getCount(){
+    return _quantity;
+  }
+  virtual void print ( std::ostream & out) = 0;
+private:
+  static int _quantity;
 
 };

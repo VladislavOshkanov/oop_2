@@ -1,4 +1,4 @@
-/*#include "Shape.h"
+#include "Shape.h"
 
 class Point : public Shape{
 public:
@@ -12,4 +12,4 @@ public:
   virtual ~Point ();
 private:
   float _x, _y;
-};*/
+};
