@@ -1,11 +1,13 @@
 
-#include "Base.h"
-
+#include "Shapes.h"
 int main() {
 
-  Named a("hoho");
-  std::cout << a << std::endl;
+  Point a("tochka", 1, 2);
+  Point b("tochka", 1, 2);
+  Point c("tochka", 1, 2);
+  Point d("tochka", 1, 2);
+  
 
-
+  std::cout << Shape::getCount() << std::endl;
   return 0;
 }

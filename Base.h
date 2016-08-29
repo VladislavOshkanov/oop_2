@@ -4,22 +4,22 @@
 class Printable {
 public:
   Printable (){};
-  virtual void print(std::ostream & out) = 0;
+  virtual void print( std::ostream & out ) = 0;
   void doSomething(){
   }
-  friend std::ostream & operator << (std::ostream & out, Printable& shape){
-    shape.print(out);
+  friend std::ostream & operator << ( std::ostream & out, Printable& shape ){
+    shape.print( out );
     return out;
   }
   ~Printable (){};
 };
 
-class Named : public Printable{
+class Named : virtual public Printable{
 public:
-  Named (std::string const  name) : Printable(){
+  Named ( std::string const name ) : Printable(){
     this->_name = name;
   };
-  void print (std::ostream & out){
+  void print ( std::ostream & out ){
     out << this->getName();
   }
   std::string const & getName() {
@@ -30,7 +30,7 @@ private:
 
 };
 
-class Shape : public Printable{
+class Shape : virtual public Printable{
 public:
   Shape () : Printable(){
     _quantity++;
@@ -38,11 +38,16 @@ public:
   ~Shape(){
     _quantity--;
   }
+  void setQuantity ( int n ){
+    _quantity = n;
+  }
   static int getCount(){
     return _quantity;
   }
-  virtual void print ( std::ostream & out) = 0;
-private:
+  virtual void print ( std::ostream & out ) = 0;
+protected:
   static int _quantity;
 
 };
+
+int Shape::_quantity = 0;
