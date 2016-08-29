@@ -1,10 +1,10 @@
 
 #include "Base.h"
 
-int main(int argc, char const *argv[]) {
-  std::string str;
-  Named a(str);
+int main() {
 
+  Named a("hoho");
+  std::cout << a << std::endl;
 
 
   return 0;

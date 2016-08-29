@@ -1,27 +1,29 @@
 #include <iostream>
 #include <string>
 
-class Printable{
+class Printable {
 public:
-  //Printable (std::string const & name) : Named(name){};
   Printable (){};
   virtual void print(std::ostream & out) = 0;
-  friend std::ostream & operator << (std::ostream & out, Printable & shape){
+  void doSomething(){
+  }
+  friend std::ostream & operator << (std::ostream & out, Printable& shape){
     shape.print(out);
     return out;
   }
-  virtual ~Printable ();
+  ~Printable (){};
 };
 
 class Named : public Printable{
 public:
-  Named (std::string name) : Printable(){
+  Named (std::string const  name) : Printable(){
     this->_name = name;
   };
-  virtual ~Named () {}
   void print (std::ostream & out){
     out << this->getName();
   }
+
+
   std::string const & getName() {
     return _name;
   }
