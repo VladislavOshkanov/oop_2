@@ -9,6 +9,13 @@ public:
   void print( std::ostream & out ){
     out << "Point: \n \tName: " << this->getName() << "\n" << "\tCoordinates:(" << _x << "," << _y << ") \n";
   }
+  float getX(){
+    return _x;
+  }
+  float getY(){
+    return _y;
+  }
+
   ~Point (){
     std::cout << "destructor of point" << '\n';
   };
@@ -23,7 +30,7 @@ public:
     _radius = radius;
   }
   void print( std::ostream & out ) {
-    out << "Circle: center:";
+    out << "Circle:\n center:";
     _center->print(out);
     out << "\tradius:" << _radius << "\n";
     out << "\tspace:" << _radius * _radius * M_PI << "\n";
@@ -36,9 +43,26 @@ private:
   Point * _center;
   float   _radius;
 };
-// class Rect {
-// public:
-//   Rect (std::string const name, );
-//   virtual ~Rect ();
-// private:
-// };
+
+class Rect {
+public:
+  Rect ( std::string const name, Point * ul, Point * dr ) {
+    _ul = ul;
+    _dr = dr;
+  };
+  ~Rect (){
+    delete _ul;
+    delete _dr;
+  };
+  float calculateSpace(){
+    return ( _ul->getY() - _dr->getY() )*( _dr->getX() - _dr->getY() );
+  }
+  void print( std::ostream & out ) {
+    out << "Rectangle:\n\tUp left:";
+    _ul -> print( out );
+    out << "\tDown right:";
+    _dr -> print ( out );
+  }
+private:
+  Point * _ul, * _dr;  //ul - up left, dr - down right
+};

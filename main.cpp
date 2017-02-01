@@ -1,11 +1,13 @@
 #include "Shapes.h"
 int main() {
 
-  Point * center = new Point ( "point", 1, 2);
-  Circle * a = new Circle("circle", center, 3);
+  Point * a = new Point ( "point", 1, 5);
+  Point * b = new Point ( "point", 4, 2);
+  Rect * r = new Rect("pryamougolnik", a, b);
+
   std::cout << Shape::getCount() << std::endl;
-  a->print(std::cout);
-  delete a;
+  r->print(std::cout);
+  delete r;
   std::cout << Shape::getCount() << std::endl;
 
   return 0;
