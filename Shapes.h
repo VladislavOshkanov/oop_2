@@ -18,8 +18,8 @@ private:
 
 class Circle : public Shape, public Named{
 public:
-  Circle (std::string const name, float x, float radius) : Shape(), Named ( name ){
-    _center = new Point ( "center", x, y );
+  Circle (std::string const name, Point * x, float radius) : Shape(), Named ( name ){
+    _center = x;
     _radius = radius;
   }
   void print( std::ostream & out ) {
@@ -36,9 +36,9 @@ private:
   Point * _center;
   float   _radius;
 };
-class Rect {
-public:
-  Rect (std::string const name, );
-  virtual ~Rect ();
-private:
-};
+// class Rect {
+// public:
+//   Rect (std::string const name, );
+//   virtual ~Rect ();
+// private:
+// };
