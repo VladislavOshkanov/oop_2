@@ -7,7 +7,7 @@ public:
   virtual void print( std::ostream & out ) = 0;
   void doSomething(){
   }
-  friend std::ostream & operator << ( std::ostream & out, Printable& shape ){
+  friend std::ostream & operator << ( std::ostream & out, Printable & shape ){
     shape.print( out );
     return out;
   }
