@@ -35,11 +35,10 @@ public:
   Shape () : Printable(){
     _quantity++;
   };
-  ~Shape(){
+  virtual ~Shape(){
     _quantity--;
-  }
-  void setQuantity ( int n ){
-    _quantity = n;
+    std::cout << "destructor of Shape" << std::endl;
+
   }
   static int getCount(){
     return _quantity;
