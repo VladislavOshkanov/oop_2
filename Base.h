@@ -25,7 +25,7 @@ public:
   std::string const & getName() {
     return _name;
   }
-private:
+protected:
   std::string _name;
 
 };

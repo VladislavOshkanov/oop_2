@@ -6,6 +6,11 @@ public:
     _x = x;
     _y = y;
   }
+  Point ( const Point & obj ): Shape(), Named( obj._name ){
+      _x = obj._x;
+      _y = obj._y;
+      std::cout << "\nКонструктор копирования\n";
+  }
   void print( std::ostream & out ){
     out << "Point: \n \tName: " << this->getName() << "\n" << "\tCoordinates:(" << _x << "," << _y << ") \n";
   }
@@ -26,7 +31,7 @@ private:
 class Circle : public Shape, public Named{
 public:
   Circle (std::string const name, Point * x, float radius) : Shape(), Named ( name ){
-    _center = x;
+    _center = new Point (*x);
     _radius = radius;
   }
   void print( std::ostream & out ) {
@@ -47,10 +52,11 @@ private:
 class Rect {
 public:
   Rect ( std::string const name, Point * ul, Point * dr ) {
-    _ul = ul;
-    _dr = dr;
+    _ul = new Point(*ul);
+    _dr = new Point(*dr);
   };
   ~Rect (){
+    std::cout << "destructor of rect" << '\n';
     delete _ul;
     delete _dr;
   };
