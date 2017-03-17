@@ -1,7 +1,9 @@
 #include "Base.h"
+#include "Container.h"
 #include <math.h>
 class Point : public Shape, public Named{
 public:
+  Point () : Shape (), Named(""){};
   Point ( std::string const name, float x, float y ) : Shape(), Named ( name ){
     _x = x;
     _y = y;
@@ -49,9 +51,9 @@ private:
   float   _radius;
 };
 
-class Rect {
+class Rect : public Shape, public Named{
 public:
-  Rect ( std::string const name, Point * ul, Point * dr ) {
+  Rect ( std::string const name, Point * ul, Point * dr ) : Shape(), Named ( name ){
     _ul = new Point(*ul);
     _dr = new Point(*dr);
   };
@@ -71,4 +73,44 @@ public:
   }
 private:
   Point * _ul, * _dr;  //ul - up left, dr - down right
+};
+class Square : public Shape, public Named {
+public:
+  Square ( std::string const name, Point * ul, Point * dr ) : Shape(), Named ( name ){
+    _ul = new Point( *ul );
+    _dr = new Point( *dr );
+  };
+  float calculateSpace(){
+    return ( _ul->getY() - _dr->getY() )*( _ul->getY() - _dr->getY() );
+  }
+  void print( std::ostream & out ) {
+    out << "Square:\n\tUp left:";
+    _ul -> print( out );
+    out << "\tDown right:";
+    _dr -> print ( out );
+  }
+  ~Square (){
+    delete _ul;
+    delete _dr;
+  };
+private:
+  Point * _ul, * _dr;
+};
+class Polyline : public Shape, public Named {
+public:
+  Polyline ( std::string const name ) : Shape(), Named ( name ){
+
+  };
+  void print ( std::ostream & out ){
+
+  }
+  void AddPoint ( Point const & point ){
+    points.pushLast( point );
+  }
+  Point getFirstPoint(){
+    return points.getNth(2);
+  }
+  virtual ~Polyline (){};
+private:
+   Container <Point> points;
 };
