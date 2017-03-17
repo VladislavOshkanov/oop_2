@@ -27,7 +27,7 @@ public:
 
   virtual ~Container (){
     while (size != 0){
-      deleteFirst();
+    deleteFirst();
     }
     std::cout << "destructor of Container" << '\n';
   }

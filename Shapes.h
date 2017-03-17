@@ -1,6 +1,6 @@
 #include "Base.h"
 #include "Container.h"
-#include <math.h>
+#include <cmath>
 class Point : public Shape, public Named{
 public:
   Point () : Shape (), Named(""){};
@@ -57,42 +57,51 @@ public:
     _ul = new Point(*ul);
     _dr = new Point(*dr);
   };
+
   ~Rect (){
     std::cout << "destructor of rect" << '\n';
     delete _ul;
     delete _dr;
   };
+
   float calculateSpace(){
     return ( _ul->getY() - _dr->getY() )*( _dr->getX() - _dr->getY() );
   }
+
   void print( std::ostream & out ) {
     out << "Rectangle:\n\tUp left:";
     _ul -> print( out );
     out << "\tDown right:";
     _dr -> print ( out );
   }
+
 private:
   Point * _ul, * _dr;  //ul - up left, dr - down right
 };
+
 class Square : public Shape, public Named {
 public:
   Square ( std::string const name, Point * ul, Point * dr ) : Shape(), Named ( name ){
     _ul = new Point( *ul );
     _dr = new Point( *dr );
   };
+
   float calculateSpace(){
     return ( _ul->getY() - _dr->getY() )*( _ul->getY() - _dr->getY() );
   }
+
   void print( std::ostream & out ) {
     out << "Square:\n\tUp left:";
     _ul -> print( out );
     out << "\tDown right:";
     _dr -> print ( out );
   }
+
   ~Square (){
     delete _ul;
     delete _dr;
   };
+
 private:
   Point * _ul, * _dr;
 };
@@ -108,9 +117,23 @@ public:
     points.pushLast( point );
   }
   Point getFirstPoint(){
-    return points.getNth(2);
+    return points.getNth(0);
   }
-  virtual ~Polyline (){};
+  float calculateLength(){
+    int size = points.getSize();
+    float length = 0;
+    for (size_t i = 0; i <  size - 1; i++) {
+      Point a = points.getNth(i);
+      Point b = points.getNth(i+1);
+      float diff_x = a.getX()-b.getX();
+      float diff_y = a.getY()-b.getY();
+      length += pow((pow(diff_x,2) + pow(diff_y,2)), 0.5);
+    }
+    return length;
+  }
+  virtual ~Polyline (){
+
+  };
 private:
    Container <Point> points;
 };
