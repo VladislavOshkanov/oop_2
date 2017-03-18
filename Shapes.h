@@ -11,15 +11,15 @@ public:
   Point ( const Point & obj ): Shape(), Named( obj._name ){
       _x = obj._x;
       _y = obj._y;
-      std::cout << "\nКонструктор копирования\n";
+      std::cout << "\nCopy constructor\n";
   }
   void print( std::ostream & out ){
     out << "Point: \n \tName: " << this->getName() << "\n" << "\tCoordinates:(" << _x << "," << _y << ") \n";
   }
-  float getX(){
+  float getX() const{
     return _x;
   }
-  float getY(){
+  float getY() const{
     return _y;
   }
 
@@ -33,7 +33,7 @@ private:
 class Circle : public Shape, public Named{
 public:
   Circle (std::string const name, Point * x, float radius) : Shape(), Named ( name ){
-    _center = new Point (*x);
+    _center = new Point ( *x );
     _radius = radius;
   }
   void print( std::ostream & out ) {
@@ -51,89 +51,105 @@ private:
   float   _radius;
 };
 
-class Rect : public Shape, public Named{
+class RectBase : public Shape, public Named{
 public:
-  Rect ( std::string const name, Point * ul, Point * dr ) : Shape(), Named ( name ){
+  RectBase ( std::string const name, Point * ul, Point * dr, bool isSquare ) : Shape(), Named ( name ){
     _ul = new Point(*ul);
     _dr = new Point(*dr);
-  };
-
-  ~Rect (){
-    std::cout << "destructor of rect" << '\n';
-    delete _ul;
-    delete _dr;
+    _isSquare = isSquare;
   };
 
   float calculateSpace(){
     return ( _ul->getY() - _dr->getY() )*( _dr->getX() - _dr->getY() );
   }
-
-  void print( std::ostream & out ) {
-    out << "Rectangle:\n\tUp left:";
-    _ul -> print( out );
-    out << "\tDown right:";
-    _dr -> print ( out );
-  }
-
-private:
-  Point * _ul, * _dr;  //ul - up left, dr - down right
-};
-
-class Square : public Shape, public Named {
-public:
-  Square ( std::string const name, Point * ul, Point * dr ) : Shape(), Named ( name ){
-    _ul = new Point( *ul );
-    _dr = new Point( *dr );
-  };
-
-  float calculateSpace(){
-    return ( _ul->getY() - _dr->getY() )*( _ul->getY() - _dr->getY() );
-  }
-
-  void print( std::ostream & out ) {
-    out << "Square:\n\tUp left:";
-    _ul -> print( out );
-    out << "\tDown right:";
-    _dr -> print ( out );
-  }
-
-  ~Square (){
+  ~RectBase (){
+    std::cout << "destructor of rect" << '\n';
     delete _ul;
     delete _dr;
   };
-
+  void print( std::ostream & out ) {
+      std::string figureType;
+      figureType = (_isSquare == true) ? "Square" : "Rectangle";
+      out << figureType << ":\n\tUp left:";
+      _ul -> print( out );
+      out << "\tDown right:";
+      _dr -> print ( out );
+  }
 private:
-  Point * _ul, * _dr;
+  Point * _ul, * _dr;  //ul - up left, dr - down right
+  bool _isSquare;
 };
-class Polyline : public Shape, public Named {
+
+
+
+class Rect :  public RectBase{
 public:
-  Polyline ( std::string const name ) : Shape(), Named ( name ){
+  Rect ( std::string const name, Point * ul, Point * dr ) : RectBase (name, ul, dr, false) {};
+
+};
+
+class Square :  public RectBase{
+public:
+  Square ( std::string const name, Point * ul, Point * dr ) : RectBase (name, ul, dr, true) {};
+
+};
+
+
+
+
+
+class PolylineBase : public Shape, public Named {
+public:
+  PolylineBase ( std::string const name, bool isClosed) : Shape(), Named ( name ){
+    _isClosed = isClosed;
 
   };
   void print ( std::ostream & out ){
-
+    std::string figureType;
+    figureType = (_isClosed == true) ? "Polygon" : "Polyline";
+    out << figureType << std::endl;
+    out << "Length:" << calculateLength() << std::endl;
   }
   void AddPoint ( Point const & point ){
     points.pushLast( point );
   }
   Point getFirstPoint(){
-    return points.getNth(0);
+    return points.getFirst();
+  }
+
+  float distance(Point const& a, Point const& b){
+    float diff_x = a.getX()-b.getX();
+    float diff_y = a.getY()-b.getY();
+    return pow((pow(diff_x,2) + pow(diff_y,2)), 0.5);
   }
   float calculateLength(){
     int size = points.getSize();
     float length = 0;
-    for (size_t i = 0; i <  size - 1; i++) {
+    for (int i = 0; i <  size - 1; i++) {
       Point a = points.getNth(i);
       Point b = points.getNth(i+1);
-      float diff_x = a.getX()-b.getX();
-      float diff_y = a.getY()-b.getY();
-      length += pow((pow(diff_x,2) + pow(diff_y,2)), 0.5);
+      length += distance (a, b);
+    }
+    if ( _isClosed == true ){
+      Point a = points.getFirst();
+      Point b = points.getLast();
+      length += distance (a, b);
     }
     return length;
   }
-  virtual ~Polyline (){
+  virtual ~PolylineBase (){
 
   };
 private:
    Container <Point> points;
+   bool _isClosed;
+};
+
+class Polyline: public PolylineBase{
+public:
+   Polyline ( std::string const name ) : PolylineBase (name, false){};
+};
+class Polygon: public PolylineBase{
+public:
+   Polygon ( std::string const name ) : PolylineBase (name, true){};
 };

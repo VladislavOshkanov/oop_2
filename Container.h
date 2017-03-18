@@ -95,7 +95,7 @@ public:
   }
   T getNth (int n){
     Node<T> * p = first;
-    for (size_t i = 0; i < n ; i++) {
+    for (int i = 0; i < n ; i++) {
       p = p->next;
     }
     return p->element;
