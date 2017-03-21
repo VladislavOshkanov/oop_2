@@ -1,6 +1,8 @@
 #include "Base.h"
 #include "Container.h"
 #include <cmath>
+
+
 class Point : public Shape, public Named{
 public:
   Point () : Shape (), Named(""){};
@@ -11,7 +13,9 @@ public:
   Point ( const Point & obj ): Shape(), Named( obj._name ){
       _x = obj._x;
       _y = obj._y;
+#ifdef DEBUG
       std::cout << "\nCopy constructor\n";
+#endif
   }
   void print( std::ostream & out ){
     out << "Point: \n \tName: " << this->getName() << "\n" << "\tCoordinates:(" << _x << "," << _y << ") \n";
@@ -24,7 +28,11 @@ public:
   }
 
   ~Point (){
+
+#ifdef DEBUG
     std::cout << "destructor of point" << '\n';
+#endif
+
   };
 private:
   float _x, _y;
@@ -44,7 +52,9 @@ public:
   }
   ~Circle (){
     delete  _center;
+#ifdef DEBUG
     std::cout << "destructor of circle" << '\n';
+#endif
   };
 private:
   Point * _center;
@@ -63,7 +73,9 @@ public:
     return ( _ul->getY() - _dr->getY() )*( _dr->getX() - _dr->getY() );
   }
   ~RectBase (){
+#ifdef DEBUG
     std::cout << "destructor of rect" << '\n';
+#endif
     delete _ul;
     delete _dr;
   };

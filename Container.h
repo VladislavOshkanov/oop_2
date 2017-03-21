@@ -2,6 +2,8 @@
 #include <iostream>
 using namespace std;
 
+const int DEBUG = 0;
+
 template <class T> class Node {
 public:
 
@@ -27,9 +29,11 @@ public:
 
   virtual ~Container (){
     while (size != 0){
-    deleteFirst();
+      deleteFirst();
     }
+#ifdef DEBUG
     std::cout << "destructor of Container" << '\n';
+#endif
   }
   void pushFirst(T element){
     if ((first == NULL)){

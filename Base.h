@@ -36,7 +36,6 @@ public:
   };
   virtual ~Shape(){
     _quantity--;
-    std::cout << "destructor of Shape" << std::endl;
 
   }
   static int getCount(){

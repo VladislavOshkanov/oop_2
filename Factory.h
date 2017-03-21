@@ -1,4 +1,6 @@
 #include "Shapes.h"
+#include <ctime>
+#include <cstdlib>
 enum{
   POINT,
   CIRCLE,
@@ -8,21 +10,68 @@ enum{
   POLYGON
 };
 
-Shape * newFigure ( int type ){
-  switch ( type ) {
-    case POINT:
-      Shape * shape = new Point ("noname", 1, 2);
-      return;
-    case CIRCLE:
-      return;
-    case RECT:
-      return;
-    case SQUARE:
-      return;
-    case POLYLINE:
-      return;
-    case POLYGON:
-      return;
+Point * makePoint (){
+  int x = rand() % 100;
+  int y = rand() % 100;
+  Point * point = new Point ("noname", x, y);
+  return point;
+}
 
+Shape * newFigure ( int type ){
+  Shape * shape = 0;
+  switch ( type ) {
+    case POINT:{
+      shape = makePoint();
+      break;
+    }
+    case CIRCLE:{
+      int radius = rand() % 100;
+      Point * center = makePoint();
+      shape = new Circle("noname", center, radius);
+      delete center;
+      break;
+    }
+    case RECT:
+    {
+      Point * ul = makePoint();
+      Point * dr = makePoint();
+      shape = new Rect ("noname", ul, dr);
+      delete ul;
+      delete dr;
+      break;
+    }
+    case SQUARE:{
+      int side = rand() % 100;
+      Point * ul = makePoint();
+      Point * dr = new Point ("noname", ul->getX() + side, ul->getY() - side);
+      shape = new Square("noname", ul, dr);
+      delete ul;
+      delete dr;
+      break;
+    }
+    case POLYLINE:{
+      int n =  100;
+      Polyline * pol = new Polyline("noname");
+      for (int i = 0; i < n; i++) {
+        Point * p = makePoint();
+        pol -> AddPoint ( *p );
+        delete p;
+      }
+      shape = pol;
+      break;
+    }
+    case POLYGON:{
+      int n =  10000;
+      Polyline * pol = new Polyline("noname");
+      for (int i = 0; i < n; i++) {
+        Point * p = makePoint();
+        pol -> AddPoint ( *p );
+        delete p;
+      }
+      shape = pol;
+      break;
+    }
   }
+
+  return shape;
 }
