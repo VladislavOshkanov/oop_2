@@ -92,12 +92,15 @@ public:
     size--;
   }
   T getFirst (){
+    if ( first == NULL ) throw "Container is empty";
     return first->element;
   }
   T getLast (){
+    if ( first == NULL ) throw "Container is empty";
     return last->element;
   }
   T getNth (int n){
+    if (size < n) throw "Container doesn't have so many elements";
     Node<T> * p = first;
     for (int i = 0; i < n ; i++) {
       p = p->next;
@@ -129,6 +132,6 @@ public:
   }
 
 private:
-  size_t size;
+  int size;
   Node<T> *first, *last;
 };

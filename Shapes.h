@@ -64,6 +64,7 @@ private:
 class RectBase : public Shape, public Named{
 public:
   RectBase ( std::string const name, Point * ul, Point * dr, bool isSquare ) : Shape(), Named ( name ){
+    if ( ul->getX() > dr ->getX() || ul->getY() < dr -> getY()) throw "Inverted rectangle or square";
     _ul = new Point(*ul);
     _dr = new Point(*dr);
     _isSquare = isSquare;
@@ -96,13 +97,16 @@ private:
 
 class Rect :  public RectBase{
 public:
-  Rect ( std::string const name, Point * ul, Point * dr ) : RectBase (name, ul, dr, false) {};
+  Rect ( std::string const name, Point * ul, Point * dr ) : RectBase (name, ul, dr, false) {
+  };
 
 };
 
 class Square :  public RectBase{
 public:
-  Square ( std::string const name, Point * ul, Point * dr ) : RectBase (name, ul, dr, true) {};
+  Square ( std::string const name, Point * ul, Point * dr ) : RectBase (name, ul, dr, true) {
+    if (ul->getY() - dr->getY() != dr->getX() - ul->getX()) throw "Is not square";
+  };
 
 };
 
