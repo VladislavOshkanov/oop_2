@@ -13,7 +13,7 @@ enum{
 Point * makePoint (){
   int x = rand() % 100;
   int y = rand() % 100;
-  Point * point = new Point ("noname", x, y);
+  Point * point = new Point ( "noname", x, y );
   return point;
 }
 
@@ -27,15 +27,18 @@ Shape * newFigure ( int type ){
     case CIRCLE:{
       int radius = rand() % 100;
       Point * center = makePoint();
-      shape = new Circle("noname", center, radius);
+      shape = new Circle( "noname", center, radius );
       delete center;
       break;
     }
     case RECT:
     {
+      int side1 = rand() % 100;
+      int side2 = rand() % 100;
       Point * ul = makePoint();
-      Point * dr = makePoint();
-      shape = new Rect ("noname", ul, dr);
+      Point * dr = new Point ( "noname", ul->getX() + side1, ul->getY() - side2 );
+      shape = new Rect ( "noname", ul, dr );
+
       delete ul;
       delete dr;
       break;
@@ -43,7 +46,7 @@ Shape * newFigure ( int type ){
     case SQUARE:{
       int side = rand() % 100;
       Point * ul = makePoint();
-      Point * dr = new Point ("noname", ul->getX() + side, ul->getY() - side);
+      Point * dr = new Point ( "noname", ul->getX() + side, ul->getY() - side );
       shape = new Square("noname", ul, dr);
       delete ul;
       delete dr;
@@ -51,21 +54,21 @@ Shape * newFigure ( int type ){
     }
     case POLYLINE:{
       int n =  100;
-      Polyline * pol = new Polyline("noname");
+      Polyline * pol = new Polyline( "noname" );
       for (int i = 0; i < n; i++) {
         Point * p = makePoint();
-        pol -> AddPoint ( *p );
+        pol -> AddPoint ( * p );
         delete p;
       }
       shape = pol;
       break;
     }
     case POLYGON:{
-      int n =  10000;
-      Polyline * pol = new Polyline("noname");
+      int n =  100;
+      Polyline * pol = new Polyline( "noname" );
       for (int i = 0; i < n; i++) {
         Point * p = makePoint();
-        pol -> AddPoint ( *p );
+        pol->AddPoint ( *p );
         delete p;
       }
       shape = pol;
