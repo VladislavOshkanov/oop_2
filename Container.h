@@ -7,8 +7,8 @@ const int DEBUG = 0;
 template<class T> class Node {
 public:
 
-  Node(){}
-  Node ( T el ){
+  Node() {}
+  Node ( T el ) {
     element = el;
     next = 0;
   }
@@ -18,23 +18,26 @@ public:
 
 template<class T> class Container {
 public:
-  Container (){
+  Container () {
     _first = 0;
     _last = 0;
     size = 0;
   }
 
-  virtual ~Container (){
-    while (size != 0){
+  virtual ~Container () {
+    while ( size != 0 ) {
       deleteFirst();
     }
+
 #ifdef DEBUG
     std::cout << "destructor of Container" << '\n';
 #endif
+
   }
-  void pushFirst( T element ){
-    if ((_first == 0)){
-      Node<T> * node = new Node<T>(element);
+
+  void pushFirst( T element ) {
+    if ((_first == 0)) {
+      Node<T> * node = new Node<T>( element );
       _first = node;
       _last = node;
     }
@@ -45,8 +48,9 @@ public:
     }
     size++;
   }
-  void pushLast ( T element ){
-    if ((_first == 0)){
+
+  void pushLast ( T element ) {
+    if ((_first == 0)) {
       Node<T> * node = new Node<T>( element );
       _first = node;
       _last = node;
@@ -58,8 +62,10 @@ public:
     }
     size++;
   }
-  void deleteFirst(){
-    if ( _first == _last ){
+
+  void deleteFirst() {
+    if ( _first == 0 ) throw "Container is empty";
+    if ( _first == _last ) {
       delete _first;
       _first = 0;
       _last = 0;
@@ -71,15 +77,17 @@ public:
     }
     size--;
   }
-  void deleteLast(){
-    if (_first == _last){
+
+  void deleteLast() {
+    if ( _first == 0 ) throw "Container is empty";
+    if ( _first == _last ) {
       delete _first;
       _first = 0;
       _last = 0;
     }
-    else{
+    else {
       Node<T> * temp = _first;
-      while (temp->next != _last){
+      while ( temp->next != _last ) {
         temp = temp->next;
       }
       delete _last;
@@ -88,43 +96,49 @@ public:
     }
     size--;
   }
-  T getFirst(){
+
+  T getFirst() {
     if ( _first == 0 ) throw "Container is empty";
     return _first->element;
   }
-  T getLast(){
+
+  T getLast() {
     if ( _first == 0 ) throw "Container is empty";
     return _last->element;
   }
-  T getNth (int n){
-    // if (size < n) throw "Container doesn't have so many elements";
+
+  T getNth ( int n ) {
+    if ( size < n ) throw "Container doesn't have so many elements";
     Node<T> * p = _first;
-    for (int i = 0; i < n ; i++) {
+    for ( int i = 0; i < n; i++ ) {
       p = p->next;
     }
     return p->element;
   }
-  int getSize(){
+
+  int getSize() {
     return size;
   }
-  bool isEmpty(){
+
+  bool isEmpty() {
     if ( size == 0 ) return true;
       else return false;
   }
-  void empty(){
-    while ( size != 0 ){
+
+  void empty() {
+    while ( size != 0 ) {
       deleteFirst();
     }
   }
-  void print(){
-    if ( _first != 0 ){
+
+  void print() {
+    if ( _first != 0 ) {
       Node<T> * temp;
       temp = _first;
       while ( temp != 0 ) {
         cout << temp->element << endl;
         temp = temp->next;
       }
-
     }
   }
 
